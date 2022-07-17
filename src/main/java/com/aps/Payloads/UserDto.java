@@ -1,6 +1,8 @@
 package com.aps.Payloads;
 
 import javax.persistence.Column;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.stereotype.Service;
 
@@ -15,12 +17,16 @@ public class UserDto {
 	
 	private Integer id;
 	
+	@NotNull
 	private String name;
 	
+	@Email
 	private String email;
 	
+	@NotNull
 	private String password;
 	
+	@NotNull
 	private String about;
 
 }
