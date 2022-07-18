@@ -28,7 +28,7 @@ public class UserDto {
 	private String email;
 	
 	@NotEmpty
-	@Pattern(regexp = "^[a-zA-Z0-9]{6,12}$")
+	@Pattern(regexp = "^[a-zA-Z0-9]{6,12}$",message = "Passwords must contain:, a minimum of 1 lower case letter [a-z], a minimum of 1 upper case letter [A-Z] and, a minimum of 1 numeric character [0-9] ")
 	private String password;
 	
 	@NotEmpty
