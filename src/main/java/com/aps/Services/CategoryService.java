@@ -5,18 +5,18 @@ import java.util.List;
 import com.aps.Payloads.CategoryDto;
 
 public interface CategoryService {
-	//create
+	// create
 	public CategoryDto createCategory(CategoryDto categoryDto);
-	
-	//update
-	public CategoryDto updateCategory(CategoryDto categoryDto,Integer categoryId);
-	
-	//delete
+
+	// update
+	public CategoryDto updateCategory(CategoryDto categoryDto, Integer categoryId);
+
+	// delete
 	public void deleteCategory(Integer categoryId);
-	
-	//get
+
+	// get
 	public CategoryDto getCategory(Integer categoryId);
-	
-	//getAll
-    public List<CategoryDto> getAllCategories();
+
+	// getAll
+	public List<CategoryDto> getAllCategories();
 }
