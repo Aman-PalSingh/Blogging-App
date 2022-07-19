@@ -18,6 +18,8 @@ import com.aps.Repositories.PostRepo;
 import com.aps.Repositories.UserRepo;
 import com.aps.Services.PostService;
 
+import net.bytebuddy.asm.Advice.This;
+
 @Service
 public class PostServiceImplementation implements PostService {
 
@@ -64,13 +66,19 @@ public class PostServiceImplementation implements PostService {
 	@Override
 	public PostDto getpost(Integer postId) {
 		// TODO Auto-generated method stub
-		return null;
+		Post post = this.postRepo.findById(postId)
+				.orElseThrow(() -> new ResourceNotFoundException("Post", "PostId", postId));
+		PostDto postDto = this.modelMapper.map(post, PostDto.class);
+		return postDto;
 	}
 
 	@Override
 	public List<PostDto> getAllPosts() {
 		// TODO Auto-generated method stub
-		return null;
+		List<Post> allPost = this.postRepo.findAll();
+		List<PostDto> allpostDto = allPost.stream().map((p) -> this.modelMapper.map(p, PostDto.class))
+				.collect(Collectors.toList());
+		return allpostDto;
 	}
 
 	@Override
