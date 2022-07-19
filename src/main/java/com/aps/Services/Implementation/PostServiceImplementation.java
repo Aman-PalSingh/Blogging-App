@@ -52,19 +52,37 @@ public class PostServiceImplementation implements PostService {
 	}
 
 	@Override
-	public PostDto updatePost(Integer postId) {
+	public PostDto updatePost(Integer postId, PostDto postDto,Integer userId,Integer categoryId) {
 		// TODO Auto-generated method stub
-		return null;
+		User user = this.userRepo.findById(userId)
+				.orElseThrow(() -> new ResourceNotFoundException("User", "userId", userId));
+		Category category = this.categoryRepo.findById(categoryId)
+				.orElseThrow(() -> new ResourceNotFoundException("Category", "categoryId", categoryId));
+		Post post = this.postRepo.findById(postId)
+				.orElseThrow(() -> new ResourceNotFoundException("Post", "postId", postId));
+		post.setTitle(postDto.getTitle());
+//		post.setAddDate(new Date());
+		post.setCategory(category);
+		post.setUser(user);
+		post.setContent(postDto.getContent());
+		post.setImageName(postDto.getImageName());
+
+		Post updatedPost = this.postRepo.save(post);
+		return this.modelMapper.map(updatedPost, PostDto.class);
+
 	}
 
 	@Override
 	public void deletePost(Integer postId) {
 		// TODO Auto-generated method stub
+		Post post = this.postRepo.findById(postId)
+				.orElseThrow(() -> new ResourceNotFoundException("Post", "PostId", postId));
+		this.postRepo.delete(post);
 
 	}
 
 	@Override
-	public PostDto getpost(Integer postId) {
+	public PostDto getAPost(Integer postId) {
 		// TODO Auto-generated method stub
 		Post post = this.postRepo.findById(postId)
 				.orElseThrow(() -> new ResourceNotFoundException("Post", "PostId", postId));
