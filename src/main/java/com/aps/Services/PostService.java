@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.aps.Entities.Post;
 import com.aps.Payloads.PostDto;
+import com.aps.Payloads.PostResponse;
 
 public interface PostService {
 	// create
@@ -19,7 +20,7 @@ public interface PostService {
 	public PostDto getAPost(Integer postId);
 
 	// getAllPost
-	public List<PostDto> getAllPosts();
+	public PostResponse getAllPosts(Integer pageNumber, Integer pageSize);
 
 	// getAllPostByUser
 	public List<PostDto> getPostByUserId(Integer userId);

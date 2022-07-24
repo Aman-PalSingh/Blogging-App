@@ -12,10 +12,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.aps.Payloads.ApiResponse;
 import com.aps.Payloads.PostDto;
+import com.aps.Payloads.PostResponse;
 import com.aps.Services.PostService;
 
 @RestController
@@ -51,9 +53,11 @@ public class PostController {
 
 	// getAllPost
 	@GetMapping("/posts")
-	public ResponseEntity<List<PostDto>> getAllPost() {
-		List<PostDto> allPost = this.postService.getAllPosts();
-		return new ResponseEntity<List<PostDto>>(allPost, HttpStatus.OK);
+	public ResponseEntity<PostResponse> getAllPost(
+			@RequestParam(value = "pageNumber", defaultValue = "0", required = false) Integer pageNumber,
+			@RequestParam(value = "pageSize", defaultValue = "5", required = false) Integer pageSize) {
+		PostResponse postResponse = this.postService.getAllPosts(pageNumber, pageSize);
+		return new ResponseEntity<PostResponse>(postResponse, HttpStatus.OK);
 	}
 
 	// getAPost
@@ -71,9 +75,10 @@ public class PostController {
 	}
 
 	@PutMapping("/user/{userId}/category/{categoryId}/posts/{postId}")
-	public ResponseEntity<PostDto> updatePost(@PathVariable Integer postId,@PathVariable Integer categoryId,@PathVariable Integer userId,@RequestBody PostDto postDto){
+	public ResponseEntity<PostDto> updatePost(@PathVariable Integer postId, @PathVariable Integer categoryId,
+			@PathVariable Integer userId, @RequestBody PostDto postDto) {
 		PostDto updatedUser = this.postService.updatePost(postId, postDto, userId, categoryId);
-		return new ResponseEntity<PostDto>(updatedUser,HttpStatus.OK);
+		return new ResponseEntity<PostDto>(updatedUser, HttpStatus.OK);
 	}
 
 }
