@@ -6,7 +6,8 @@ import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
+import org.springframework.jdbc.config.SortedResourcesFactoryBean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -95,9 +96,16 @@ public class PostServiceImplementation implements PostService {
 	}
 
 	@Override
-	public PostResponse getAllPosts(Integer pageNumber, Integer pageSize) {
+	public PostResponse getAllPosts(Integer pageNumber, Integer pageSize,String sortBy, String sortDirection) {
 		// TODO Auto-generated method stub
-		Pageable page = PageRequest.of(pageNumber, pageSize);
+		Sort sort = null;
+		if(sortDirection.equalsIgnoreCase("asc")) {
+			sort = Sort.by(sortBy).ascending();
+		}else {
+			sort = Sort.by(sortBy).descending();
+		}
+		
+		Pageable page = PageRequest.of(pageNumber, pageSize,sort);
 		Page<Post> pagePost = this.postRepo.findAll(page);
 		List<Post> allPost = pagePost.getContent();
 		List<PostDto> allpostDto = allPost.stream().map((p) -> this.modelMapper.map(p, PostDto.class))

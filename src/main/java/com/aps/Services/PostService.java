@@ -20,7 +20,7 @@ public interface PostService {
 	public PostDto getAPost(Integer postId);
 
 	// getAllPost
-	public PostResponse getAllPosts(Integer pageNumber, Integer pageSize);
+	public PostResponse getAllPosts(Integer pageNumber, Integer pageSize,String sortBy, String sortDirection);
 
 	// getAllPostByUser
 	public List<PostDto> getPostByUserId(Integer userId);
