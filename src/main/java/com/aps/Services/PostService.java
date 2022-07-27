@@ -27,5 +27,8 @@ public interface PostService {
 
 	// getAllPostByCategory
 	public List<PostDto> getPostByCategoryId(Integer categoryId);
+	
+	//searching
+	public List<PostDto> searchPost(String Keyword);
 
 }

@@ -96,16 +96,18 @@ public class PostServiceImplementation implements PostService {
 	}
 
 	@Override
-	public PostResponse getAllPosts(Integer pageNumber, Integer pageSize,String sortBy, String sortDirection) {
+	public PostResponse getAllPosts(Integer pageNumber, Integer pageSize, String sortBy, String sortDirection) {
 		// TODO Auto-generated method stub
-		Sort sort = null;
-		if(sortDirection.equalsIgnoreCase("asc")) {
-			sort = Sort.by(sortBy).ascending();
-		}else {
-			sort = Sort.by(sortBy).descending();
-		}
-		
-		Pageable page = PageRequest.of(pageNumber, pageSize,sort);
+
+		// used ternary operator instead of if else
+		Sort sort = (sortDirection.equals("asc")) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
+//		if(sortDirection.equalsIgnoreCase("asc")) {
+//			sort = Sort.by(sortBy).ascending();
+//		}else {
+//			sort = Sort.by(sortBy).descending();
+//		}
+
+		Pageable page = PageRequest.of(pageNumber, pageSize, sort);
 		Page<Post> pagePost = this.postRepo.findAll(page);
 		List<Post> allPost = pagePost.getContent();
 		List<PostDto> allpostDto = allPost.stream().map((p) -> this.modelMapper.map(p, PostDto.class))
@@ -146,6 +148,15 @@ public class PostServiceImplementation implements PostService {
 		List<PostDto> postDtos = posts.stream().map((p) -> this.modelMapper.map(p, PostDto.class))
 				.collect(Collectors.toList());
 		return postDtos;
+	}
+
+	@Override
+	public List<PostDto> searchPost(String Keyword) {
+		// TODO Auto-generated method stub
+		List<Post> posts = this.postRepo.findByTitleContaining(Keyword);
+		List<PostDto> postDtos = posts.stream().map((p) -> this.modelMapper.map(p, PostDto.class))
+				.collect(Collectors.toList());
+		return postDtos; 
 	}
 
 }
